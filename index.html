@@ -26,22 +26,22 @@
   #track{
     display:flex;
     flex-direction:column;
-    animation:swing 10s linear infinite;
+    align-items:center;
+    /* 8秒一个完整的来回循环 */
+    animation:swing 8s linear infinite;
   }
   .row{
     white-space:nowrap;
-    font-size:14vw;
-    line-height:1.1;
+    /* 字号拉到最大，几乎占满屏 */
+    font-size:18vw;
+    line-height:1.15;
     font-weight:bold;
-    color:#ff0000;
-    text-shadow:0 0 10px #ff0000;
-  }
-  /* 整面渐变：靠外层遮罩叠黑色渐变，所有行一起变暗 */
-  #mask{
-    position:fixed;
-    inset:0;
-    background:linear-gradient(to bottom, transparent 0%, transparent 30%, #000 70%, #000 100%);
-    pointer-events:none;
+    /* 整体渐变：从亮红到暗红再到黑，一体成型，不分层 */
+    background: linear-gradient(to bottom, #ff0000 0%, #ff0044 40%, #000000 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing:4px;
   }
   @keyframes swing{
     0%{transform:translateY(0);}
@@ -54,13 +54,14 @@
 <div id="wrap">
   <div id="track"></div>
 </div>
-<div id="mask"></div>
 <script>
   const track = document.getElementById('track');
   let html = '';
+  // 这里只放一行字，撑满屏幕
   for(let i=0;i<30;i++){
     html += '<div class="row">DeepSeek</div>';
   }
+  // 复制两份，保证来回滚动时中间没有断层
   track.innerHTML = html + html;
 </script>
 </body>
