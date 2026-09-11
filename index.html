@@ -9,7 +9,10 @@
     height:100%;
     background:#000;
     overflow:hidden;
-    font-family:monospace;
+    font-family:serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
   }
   #wrap{
     position:fixed;
@@ -17,37 +20,42 @@
     display:flex;
     flex-direction:column;
     justify-content:center;
-    animation:scrollDown 8s linear infinite;
+    align-items:center;
   }
   .row{
     white-space:nowrap;
-    line-height:1.15;
-    font-size:34px;
-    color:transparent;
-    background:linear-gradient(to bottom,#ff0000,#000000);
+    font-size:14vw;
+    line-height:1.1;
+    font-weight:bold;
+    /* 整面渐变：从亮红到近黑 */
+    background:linear-gradient(to bottom, #ff0000, #000000);
     -webkit-background-clip:text;
     background-clip:text;
+    color:transparent;
+    letter-spacing:2px;
   }
-  @keyframes scrollDown{
-    from{transform:translateY(-50%);}
-    to{transform:translateY(0);}
+  #track{
+    animation:swing 4s linear infinite;
+  }
+  @keyframes swing{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-50%);}
+    100%{transform:translateY(0);}
   }
 </style>
 </head>
 <body>
-<div id="wrap"></div>
+<div id="wrap">
+  <div id="track"></div>
+</div>
 <script>
-  const wrap = document.getElementById('wrap');
+  const track = document.getElementById('track');
   let html = '';
-  for(let i=0;i<120;i++){
-    let s = '';
-    for(let j=0;j<60;j++){
-      s += 'DeepSeek' + (Math.random()>0.5 ? ' ' : '');
-    }
-    html += '<div class="row">'+s+'</div>';
+  for(let i=0;i<20;i++){
+    html += '<div class="row">DeepSeek</div>';
   }
-  // 复制两份，滚一半无缝循环
-  wrap.innerHTML = html + html;
+  // 复制两份，确保上下滚动无缝衔接
+  track.innerHTML = html + html;
 </script>
 </body>
 </html>
