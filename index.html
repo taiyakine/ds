@@ -10,37 +10,37 @@
     background:#000;
     overflow:hidden;
     font-family:serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
   }
   #wrap{
     position:fixed;
     inset:0;
+    overflow:hidden;
+  }
+  #track{
     display:flex;
     flex-direction:column;
-    justify-content:center;
-    align-items:center;
+    animation:scrollDown 10s linear infinite;
   }
   .row{
     white-space:nowrap;
     font-size:14vw;
-    line-height:1.1;
+    line-height:1.05;
     font-weight:bold;
-    /* 整面渐变：从亮红到近黑 */
-    background:linear-gradient(to bottom, #ff0000, #000000);
-    -webkit-background-clip:text;
-    background-clip:text;
-    color:transparent;
+    color:#ff0000;
+    text-align:center;
     letter-spacing:2px;
   }
   #track{
-    animation:swing 4s linear infinite;
+    -webkit-mask-image:linear-gradient(to bottom, #fff 0%, #fff 60%, transparent 100%);
+    mask-image:linear-gradient(to bottom, #fff 0%, #fff 60%, transparent 100%);
   }
-  @keyframes swing{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-50%);}
-    100%{transform:translateY(0);}
+  .row{
+    -webkit-background-clip:text;
+    background-clip:text;
+  }
+  @keyframes scrollDown{
+    from{transform:translateY(0);}
+    to{transform:translateY(-50%);}
   }
 </style>
 </head>
@@ -54,7 +54,6 @@
   for(let i=0;i<20;i++){
     html += '<div class="row">DeepSeek</div>';
   }
-  // 复制两份，确保上下滚动无缝衔接
   track.innerHTML = html + html;
 </script>
 </body>
