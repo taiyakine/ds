@@ -11,46 +11,62 @@
     overflow:hidden;
     font-family:monospace;
   }
-  #wrap{
+  .layer{
     position:fixed;
     inset:0;
     display:flex;
     flex-direction:column;
-    animation:scrollDown 1.2s linear infinite;
+    animation:swing 6s ease-in-out infinite;
+  }
+  #back{
+    opacity:0.2;
+    filter:blur(2px);
+    animation-duration:8s;
+    animation-direction:reverse;
+    font-size:26px;
+  }
+  #front{
+    font-size:34px;
   }
   .row{
     white-space:nowrap;
     line-height:1.15;
-    font-size:34px;
     color:#ff0000;
-    text-shadow:0 0 8px #ff0000;
   }
-  /* 越往下颜色越暗，形成从深到浅的循环 */
-  .row:nth-child(6n+1){color:#ff0000;}
-  .row:nth-child(6n+2){color:#cc0000;}
-  .row:nth-child(6n+3){color:#990000;}
-  .row:nth-child(6n+4){color:#660000;}
-  .row:nth-child(6n+5){color:#330000;}
-  .row:nth-child(6n+6){color:#110000;}
-  @keyframes scrollDown{
-    from{transform:translateY(0);}
-    to{transform:translateY(-33.333%);}
+  /* 整面平滑渐变：越往下越暗，循环周期覆盖全部行 */
+  #front .row{
+    color:transparent;
+    background:linear-gradient(to bottom, #ff0000, #000000);
+    -webkit-background-clip:text;
+    background-clip:text;
+  }
+  #back .row{
+    color:#ff0044;
+  }
+  @keyframes swing{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-50%);}
+    100%{transform:translateY(0);}
   }
 </style>
 </head>
 <body>
-<div id="wrap"></div>
+<div class="layer" id="back"></div>
+<div class="layer" id="front"></div>
 <script>
-  const wrap = document.getElementById('wrap');
-  let html = '';
-  for(let i=0;i<150;i++){
-    let s = '';
-    for(let j=0;j<60;j++){
-      s += 'DeepSeek' + (Math.random()>0.5 ? ' ' : '');
+  function fill(el){
+    let html = '';
+    for(let i=0;i<150;i++){
+      let s = '';
+      for(let j=0;j<60;j++){
+        s += 'DeepSeek' + (Math.random()>0.5 ? ' ' : '');
+      }
+      html += '<div class="row">'+s+'</div>';
     }
-    html += '<div class="row">'+s+'</div>';
+    el.innerHTML = html + html;
   }
-  wrap.innerHTML = html + html + html;
+  fill(document.getElementById('back'));
+  fill(document.getElementById('front'));
 </script>
 </body>
 </html>
