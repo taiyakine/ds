@@ -16,19 +16,21 @@
     inset:0;
     display:flex;
     flex-direction:column;
-    animation:loop 2.5s ease-in-out infinite;
+    justify-content:center;
+    animation:scrollDown 8s linear infinite;
   }
   .row{
     white-space:nowrap;
     line-height:1.15;
     font-size:34px;
-    color:#ff0000;
-    text-shadow:0 0 10px #ff0000,0 0 20px #ff0000;
+    color:transparent;
+    background:linear-gradient(to bottom,#ff0000,#000000);
+    -webkit-background-clip:text;
+    background-clip:text;
   }
-  @keyframes loop{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-50%);}
-    100%{transform:translateY(0);}
+  @keyframes scrollDown{
+    from{transform:translateY(-50%);}
+    to{transform:translateY(0);}
   }
 </style>
 </head>
@@ -37,14 +39,14 @@
 <script>
   const wrap = document.getElementById('wrap');
   let html = '';
-  for(let i=0;i<150;i++){
+  for(let i=0;i<120;i++){
     let s = '';
-    for(let j=0;j<40;j++){
+    for(let j=0;j<60;j++){
       s += 'DeepSeek' + (Math.random()>0.5 ? ' ' : '');
     }
     html += '<div class="row">'+s+'</div>';
   }
-  // 复制两份，滚一半就能无缝接回开头
+  // 复制两份，滚一半无缝循环
   wrap.innerHTML = html + html;
 </script>
 </body>
