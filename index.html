@@ -11,62 +11,44 @@
     overflow:hidden;
     font-family:monospace;
   }
-  .layer{
+  #wrap{
     position:fixed;
     inset:0;
     display:flex;
     flex-direction:column;
-    animation:swing 6s ease-in-out infinite;
-  }
-  #back{
-    opacity:0.2;
-    filter:blur(2px);
-    animation-duration:8s;
-    animation-direction:reverse;
-    font-size:26px;
-  }
-  #front{
-    font-size:34px;
+    animation:scrollDown 2s linear infinite;
   }
   .row{
     white-space:nowrap;
     line-height:1.15;
+    font-size:34px;
     color:#ff0000;
   }
-  /* 整面平滑渐变：越往下越暗，循环周期覆盖全部行 */
-  #front .row{
-    color:transparent;
-    background:linear-gradient(to bottom, #ff0000, #000000);
-    -webkit-background-clip:text;
-    background-clip:text;
-  }
-  #back .row{
-    color:#ff0044;
-  }
-  @keyframes swing{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-50%);}
-    100%{transform:translateY(0);}
+  /* 每4行一循环，形成整面平滑渐变 */
+  .row:nth-child(4n+1){color:#ff0000;}
+  .row:nth-child(4n+2){color:#cc0000;}
+  .row:nth-child(4n+3){color:#880000;}
+  .row:nth-child(4n+4){color:#440000;}
+  @keyframes scrollDown{
+    from{transform:translateY(0);}
+    to{transform:translateY(-25%);}
   }
 </style>
 </head>
 <body>
-<div class="layer" id="back"></div>
-<div class="layer" id="front"></div>
+<div id="wrap"></div>
 <script>
-  function fill(el){
-    let html = '';
-    for(let i=0;i<150;i++){
-      let s = '';
-      for(let j=0;j<60;j++){
-        s += 'DeepSeek' + (Math.random()>0.5 ? ' ' : '');
-      }
-      html += '<div class="row">'+s+'</div>';
+  const wrap = document.getElementById('wrap');
+  let html = '';
+  for(let i=0;i<150;i++){
+    let s = '';
+    for(let j=0;j<60;j++){
+      s += 'DeepSeek' + (Math.random()>0.5 ? ' ' : '');
     }
-    el.innerHTML = html + html;
+    html += '<div class="row">'+s+'</div>';
   }
-  fill(document.getElementById('back'));
-  fill(document.getElementById('front'));
+  // 复制四份，滚四分之一就无缝接上，像竖直的圈一直转
+  wrap.innerHTML = html + html + html + html;
 </script>
 </body>
 </html>
