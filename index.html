@@ -16,22 +16,19 @@
     inset:0;
     display:flex;
     flex-direction:column;
-    animation:scrollDown 2s linear infinite;
+    animation:loop 2.5s ease-in-out infinite;
   }
   .row{
     white-space:nowrap;
     line-height:1.15;
     font-size:34px;
     color:#ff0000;
+    text-shadow:0 0 10px #ff0000,0 0 20px #ff0000;
   }
-  /* 每4行一循环，形成整面平滑渐变 */
-  .row:nth-child(4n+1){color:#ff0000;}
-  .row:nth-child(4n+2){color:#cc0000;}
-  .row:nth-child(4n+3){color:#880000;}
-  .row:nth-child(4n+4){color:#440000;}
-  @keyframes scrollDown{
-    from{transform:translateY(0);}
-    to{transform:translateY(-25%);}
+  @keyframes loop{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-50%);}
+    100%{transform:translateY(0);}
   }
 </style>
 </head>
@@ -42,13 +39,13 @@
   let html = '';
   for(let i=0;i<150;i++){
     let s = '';
-    for(let j=0;j<60;j++){
+    for(let j=0;j<40;j++){
       s += 'DeepSeek' + (Math.random()>0.5 ? ' ' : '');
     }
     html += '<div class="row">'+s+'</div>';
   }
-  // 复制四份，滚四分之一就无缝接上，像竖直的圈一直转
-  wrap.innerHTML = html + html + html + html;
+  // 复制两份，滚一半就能无缝接回开头
+  wrap.innerHTML = html + html;
 </script>
 </body>
 </html>
