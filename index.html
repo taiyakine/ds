@@ -2,69 +2,69 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>DeepSeek 环形滚屏</title>
+<title>DeepSeek</title>
 <style>
-  html, body {
-    margin: 0;
-    height: 100%;
-    background: #000;
-    overflow: hidden;
-    font-family: serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  html,body{
+    margin:0;
+    height:100%;
+    background:#000;
+    overflow:hidden;
+    font-family:serif;
   }
-  #wrap {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+  #stage{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
   }
-  /* 用来存放滚动轨道的容器 */
-  #track {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* 向下滚，然后向上滚，循环往复（这里用ease-in-out让折返更平滑） */
-    animation: swing 12s ease-in-out infinite;
+  #track{
+    display:flex;
+    flex-direction:column;
+    animation:roll 12s linear infinite;
   }
-  .row {
-    white-space: nowrap;
-    font-size: 15vw; /* 字号加大，几乎占满屏幕宽度 */
-    line-height: 1.2;
-    font-weight: bold;
-    color: #ff0000;
-    text-shadow: 0 0 15px rgba(255, 0, 0, 0.8); /* 增加一点发光感 */
+  .row{
+    white-space:nowrap;
+    font-size:16vw;
+    line-height:1.1;
+    font-weight:bold;
+    color:#ff0000;
+    text-shadow:0 0 12px #ff0000;
+    letter-spacing:2px;
   }
-  /* 核心：整个屏幕的全局渐变遮罩，实现“整面渐变，非单条分层” */
-  #mask {
-    position: fixed;
-    inset: 0;
-    /* 顶部透明，底部纯黑，所有行的颜色会统一在这个遮罩下变暗 */
-    background: linear-gradient(to bottom, transparent 0%, transparent 20%, #000 80%, #000 100%);
-    pointer-events: none;
-    z-index: 10;
+  /* 整面统一渐变遮罩：上下暗、中间亮，所有行一起变 */
+  #mask{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background:linear-gradient(
+      to bottom,
+      #000 0%,
+      transparent 25%,
+      transparent 75%,
+      #000 100%
+    );
   }
-  @keyframes swing {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-50%); } /* 滚到一半，开始往回滚 */
-    100% { transform: translateY(0); }
+  @keyframes roll{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-50%);}
+    100%{transform:translateY(0);}
   }
 </style>
 </head>
 <body>
-<div id="wrap">
+<div id="stage">
   <div id="track"></div>
 </div>
 <div id="mask"></div>
 <script>
   const track = document.getElementById('track');
   let html = '';
-  // 生成大量的一行行文字
-  for(let i=0; i<15; i++){
+  for(let i=0;i<30;i++){
     html += '<div class="row">DeepSeek</div>';
   }
-  // 核心机密：复制一份完全相同的内容，保证在50%折返时画面是无缝衔接的
+  // 复制两份，保证上下滚动无缝衔接
   track.innerHTML = html + html;
 </script>
 </body>
